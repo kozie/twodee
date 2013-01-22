@@ -1,5 +1,6 @@
 package nl.kozie.twodee;
 
+import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class KeyboardListener implements KeyListener {
 	public Key space = new Key();
 	public Key esc = new Key();
 
-	public KeyboardListener(Main main) {
-		main.addKeyListener(this);
+	public KeyboardListener(Canvas ctx) {
+		ctx.addKeyListener(this);
 	}
 
 	public void release() {

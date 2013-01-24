@@ -2,10 +2,13 @@ package nl.kozie.twodee;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +18,9 @@ public class Display extends Canvas {
 	private static final long serialVersionUID = 1L;
 	protected JFrame frame;
 	
-	public BufferedImage image;
+	protected BufferStrategy bs;
+	protected Graphics2D g;
+	protected BufferedImage image;
 	public int[] pixels;
 	
 	public int fps = 60;
@@ -49,7 +54,7 @@ public class Display extends Canvas {
 		fps = rate;
 	}
 	
-	public void show() {
+	public void initWindow() {
 		frame = new JFrame();
 		JPanel panel = new JPanel(new BorderLayout());
 		
@@ -62,7 +67,35 @@ public class Display extends Canvas {
 		frame.setVisible(true);
 	}
 	
-	public void render(Graphics2D g) {
+	public void initStrategy() {
+		if (getBufferStrategy() == null) {
+			createBufferStrategy(3);
+		}
 		
+		bs = getBufferStrategy();
+		g = (Graphics2D) bs.getDrawGraphics();
+	}
+	
+	public void render() {
+		
+		Random rand = new Random();
+		for (int i = 0; i < pixels.length; i++) {
+			int r = rand.nextInt(0xFF);
+			int rgb = (r << 16 | r << 8 | r);
+			
+			pixels[i] = rgb;
+		}
+		
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		
+		try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		bs.show();
 	}
 }

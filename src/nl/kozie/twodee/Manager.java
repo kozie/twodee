@@ -2,7 +2,7 @@ package nl.kozie.twodee;
 
 public class Manager implements Runnable {
 
-	public boolean running = false;
+	protected boolean running = false;
 	
 	public Display display;
 	public Game main;
@@ -13,6 +13,8 @@ public class Manager implements Runnable {
 	
 	protected void init() {
 		keyboard = new KeyboardListener(display);
+		
+		display.initStrategy();
 	}
 	
 	public static Manager getInstance() {
@@ -63,21 +65,88 @@ public class Manager implements Runnable {
 	
 	@Override
 	public void run() {
+		
 		init();
+		
+		double nsPerTick = 1000000000.0 / ups;
+		double nsPerFrame = 1000000000.0 / display.fps;
+		double unprocessedTicks = 0;
+		double unprocessedFrames = 0;
+		
+		long lastTick = System.nanoTime();
+		long lastFrame = System.nanoTime();
+		long lastTime = System.currentTimeMillis();
+		
+		int toTick = 0;
+		int toRender = 0;
+		
+		int tickCount = 0;
+		int frameCount = 0;
+		long lastCount = System.currentTimeMillis();
 		
 		while (running) {
 			
 			if (keyboard.esc.pressed) stop();
 			
-			System.out.println("Im running!");
+			while (unprocessedTicks >= 1) {
+				toTick++;
+				unprocessedTicks -= 1;
+			}
+			
+			if (toTick > 1 && toTick < 3) toTick = 1;
+			if (toTick > 20) toTick = 20;
+			
+			while (toTick > 0) {
+				int delta = (int) (System.currentTimeMillis() - lastTime);
+				tick(delta);
+				
+				lastTime = System.currentTimeMillis();
+				
+				toTick--;
+				tickCount++;
+			}
+			
+			while (unprocessedFrames >= 1) {
+				toRender++;
+				unprocessedFrames -= 1;
+			}
+			
+			if (toRender > 1 && toRender < 3) toRender = 1;
+			if (toRender > 20) toRender = 20;
+			
+			while (toRender > 0) {
+				display.render();
+				
+				toRender--;
+				frameCount++;
+			}
+			
+			unprocessedTicks += (System.nanoTime() - lastTick) / nsPerTick;
+			lastTick = System.nanoTime();
+			
+			unprocessedFrames += (System.nanoTime() - lastFrame) / nsPerFrame;
+			lastFrame = System.nanoTime();
 			
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			// Keep a counter for stats
+			if ((System.currentTimeMillis() - lastCount) >= 1000) {
+				System.out.printf("Tick %d FPS %d\n", tickCount, frameCount);
+				
+				tickCount = 0;
+				frameCount = 0;
+				lastCount = System.currentTimeMillis();
+			}
 		}
 		
 		System.exit(0);
+	}
+	
+	protected void tick(int delta) {
+		System.gc();
 	}
 }

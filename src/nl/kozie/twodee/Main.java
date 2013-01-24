@@ -12,9 +12,9 @@ public class Main implements Game {
 	public Main() {
 				
 		Display display = new Display(WIDTH, HEIGHT, SCALE);
+		display.initWindow();
 		display.setTitle(TITLE);
 		display.setFps(FPS);
-		display.show();
 		
 		Manager manager = Manager.getInstance(this);
 		manager.setDisplay(display);

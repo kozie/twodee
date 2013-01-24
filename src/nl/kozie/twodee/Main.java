@@ -1,60 +1,30 @@
 package nl.kozie.twodee;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-
 public class Main implements Game {
 	
 	private static final String TITLE = "Twodee";
 	private static final int WIDTH = 320;
 	private static final int HEIGHT = 240;
 	private static final int SCALE = 3;
-	private static final int FRAMERATE = 60;
-	
-	public static Main instance;
-	public boolean running = false;
-	
-	public Display display;
-	public KeyboardListener keyboard;
-	
+	private static final int FPS = 60;
+	private static final int UPS = 40;
+			
 	public Main() {
-		
-		instance = this;
-		
-		Dimension dim = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
-		
-		display = new Display(dim);
+				
+		Display display = new Display(WIDTH, HEIGHT, SCALE);
 		display.setTitle(TITLE);
-		display.setFps(FRAMERATE);
+		display.setFps(FPS);
 		display.show();
 		
-		keyboard = new KeyboardListener(display);
+		Manager manager = Manager.getInstance(this);
+		manager.setDisplay(display);
+		manager.setUps(UPS);
 		
-		this.start();
-	}
-	
-	public void start() {
-		running = true;
-		
-		Thread thread = new Thread(this);
-		thread.setPriority(Thread.MAX_PRIORITY);
-		thread.start();
-	}
-	
-	public void stop() {
-		running = false;
-	}
-	
-	public void run() {
-		
-	}
-	
-	public void tick(int delta) {
-		
-	}
-	
-	public void render(Graphics2D g) {
-		
+		try {
+			manager.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

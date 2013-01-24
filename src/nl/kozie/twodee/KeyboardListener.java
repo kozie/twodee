@@ -8,7 +8,7 @@ import java.util.List;
 
 public class KeyboardListener implements KeyListener {
 
-	protected class Key {
+	public class Key {
 
 		public boolean pressed = false;
 

@@ -80,7 +80,7 @@ public class Display extends Canvas {
 		
 		Random rand = new Random();
 		for (int i = 0; i < pixels.length; i++) {
-			int r = rand.nextInt(0xFF);
+			int r = rand.nextInt(0x88) & 0xFF;
 			int rgb = (r << 16 | r << 8 | r);
 			
 			pixels[i] = rgb;
@@ -89,12 +89,6 @@ public class Display extends Canvas {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		
-		try {
-			Thread.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
 		bs.show();
 	}

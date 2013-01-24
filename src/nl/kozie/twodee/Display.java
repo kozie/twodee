@@ -35,13 +35,16 @@ public class Display extends Canvas {
 		scale = s;
 		
 		Dimension dim = new Dimension(width * scale, height * scale);
-		
 		setPreferredSize(dim);
 		setMinimumSize(dim);
 		setMaximumSize(dim);
 		
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	}
+	
+	public Display(int w, int h) {
+		this(w, h, 1);
 	}
 	
 	public void setTitle(String title) {

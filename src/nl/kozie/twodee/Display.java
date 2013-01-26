@@ -129,8 +129,8 @@ public class Display extends Canvas {
 			spr.setPixel(dark, scale - 1, y);
 		}
 		
-		//mosaicImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-		mosaicImage = gfxConfig.createCompatibleImage(getWidth(), getHeight(), Transparency.TRANSLUCENT);
+		mosaicImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		//mosaicImage = gfxConfig.createCompatibleImage(getWidth(), getHeight(), Transparency.TRANSLUCENT);
 		mosaicPixels = ((DataBufferInt) mosaicImage.getRaster().getDataBuffer()).getData();
 		
 		for (int y = 0; y < getHeight(); y ++) {

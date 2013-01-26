@@ -29,12 +29,14 @@ public class Manager implements Runnable {
 	
 	public static Map<String, Spritesheet> spritesheets;
 	
+	protected Manager() {
+		spritesheets = Collections.synchronizedMap(new HashMap<String, Spritesheet>());
+	}
+	
 	protected void init() {
 		
 		keyboard = new KeyboardListener(display);
-		spritesheets = Collections.synchronizedMap(new HashMap<String, Spritesheet>());
 		
-		display.initStrategy();
 		main.init();
 	}
 	
@@ -49,6 +51,7 @@ public class Manager implements Runnable {
 	public static Manager getInstance(Game obj) {
 		Manager manager = getInstance();
 		manager.setMain(obj);
+		
 		return manager;
 	}
 	

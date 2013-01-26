@@ -15,6 +15,7 @@ public class Main implements Game {
 				
 		Display display = new Display(WIDTH, HEIGHT, SCALE);
 		display.initWindow();
+		display.initMosaic(SCALE);
 		display.setTitle(TITLE);
 		display.setFps(FPS);
 		
@@ -34,7 +35,7 @@ public class Main implements Game {
 		Manager.setSpritesheet("main", main);
 	}
 	
-	public  void tick(int delta) {
+	public synchronized void tick(int delta) {
 		
 	}
 

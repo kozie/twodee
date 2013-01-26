@@ -22,6 +22,14 @@ public class Spritesheet {
 		height = img.getHeight();
 		pixels = img.getRGB(0, 0, width, height, null, 0, width);
 		
+		for (int i = 0; i < pixels.length; i++) {
+			
+			int alpha = (pixels[i] >> 24) & 0xFF;
+			
+			// If alpha is transparent (0) set current pixel to -1.
+			if (alpha == 0) pixels[i] = -1;
+		}
+		
 		tileWidth = tw;
 		tileHeight = th;
 	}

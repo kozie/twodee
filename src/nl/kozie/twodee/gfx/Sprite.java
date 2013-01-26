@@ -20,4 +20,22 @@ public class Sprite {
 	public int getHeight() {
 		return height;
 	}
+	
+	public int getPixel(int x, int y) {
+		return pixels[(y * width) + x];
+	}
+	
+	public void setPixel(int col, int x, int y) {
+		pixels[(y * width) + x] = col;
+	}
+	
+	public void clear() {
+		clear(0);
+	}
+	
+	public void clear(int col) {
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = col;
+		}
+	}
 }

@@ -8,10 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import nl.kozie.twodee.gfx.Sprite;
+import nl.kozie.twodee.gfx.Spritesheet;
 
 public class Display extends Canvas {
 	
@@ -68,6 +70,8 @@ public class Display extends Canvas {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		
+		requestFocus();
 	}
 	
 	public void initStrategy() {
@@ -81,18 +85,33 @@ public class Display extends Canvas {
 	
 	public void render() {
 		
-		Random rand = new Random();
+		/*Random rand = new Random();
 		for (int i = 0; i < pixels.length; i++) {
 			int r = rand.nextInt(0x88) & 0xFF;
 			int rgb = (r << 16 | r << 8 | r);
 			
 			pixels[i] = rgb;
+		}*/
+		
+		Spritesheet sheet = Manager.getSpritesheet("main");
+		Sprite sprite = sheet.getTile(0, 9, 3);
+		
+		int startX = 140;
+		int startY = 80 * width;
+		for (int y = 0; y < sprite.getHeight(); y ++) {
+			for (int x = 0; x < sprite.getWidth(); x++) {
+				pixels[startY + (y * width) + startX + x] = sprite.pixels[y * sprite.getWidth() + x];
+			}
 		}
 		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		
+				
+		sync();
+	}
+	
+	public void sync() {
 		bs.show();
 	}
 }

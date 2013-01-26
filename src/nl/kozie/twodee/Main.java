@@ -1,5 +1,7 @@
 package nl.kozie.twodee;
 
+import nl.kozie.twodee.gfx.Spritesheet;
+
 public class Main implements Game {
 	
 	private static final String TITLE = "Twodee";
@@ -8,7 +10,7 @@ public class Main implements Game {
 	private static final int SCALE = 3;
 	private static final int FPS = 60;
 	private static final int UPS = 40;
-			
+	
 	public Main() {
 				
 		Display display = new Display(WIDTH, HEIGHT, SCALE);
@@ -25,6 +27,15 @@ public class Main implements Game {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public synchronized void init() {
+		Spritesheet main = new Spritesheet(Manager.getImage("maintiles.png"), 16);
+		Manager.setSpritesheet("main", main);
+	}
+	
+	public  void tick(int delta) {
+		
 	}
 
 	/**

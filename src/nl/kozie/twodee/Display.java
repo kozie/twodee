@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -191,7 +192,8 @@ public class Display extends Canvas {
 	}
 	
 	public void sync() {
-		bs.show();
 		g.dispose();
+		bs.show();
+		Toolkit.getDefaultToolkit().sync();
 	}
 }

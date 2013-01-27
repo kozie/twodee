@@ -139,9 +139,7 @@ public class Display extends Canvas {
 				int col = spr.getPixel(x % scale, y % scale);
 				int idx = y * getWidth() + x;
 				
-				if (col == -1) {
-					mosaicPixels[idx] = 0x0;
-				} else {
+				if (col != -1) {
 					mosaicPixels[idx] = (mosaicAlpha << 24) | col;
 				}
 			}

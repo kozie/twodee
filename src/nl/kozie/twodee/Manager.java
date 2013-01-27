@@ -23,6 +23,7 @@ public class Manager implements Runnable {
 	
 	public Display display;
 	public KeyboardListener keyboard;
+	public MouseListener mouse;
 	
 	public static Manager instance;
 	public static Game main;
@@ -36,6 +37,7 @@ public class Manager implements Runnable {
 	protected void init() {
 		
 		keyboard = new KeyboardListener(display);
+		mouse = new MouseListener(display);
 		
 		main.init();
 	}

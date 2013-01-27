@@ -7,7 +7,7 @@ public class Main implements Game {
 	private static final String TITLE = "Twodee";
 	private static final int WIDTH = 320;
 	private static final int HEIGHT = 240;
-	private static final int SCALE = 3;
+	private static final int SCALE = 5;
 	private static final int FPS = 60;
 	private static final int UPS = 40;
 	

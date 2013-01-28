@@ -12,17 +12,18 @@ import java.awt.Transparency;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.util.Random;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import nl.kozie.twodee.gfx.Sprite;
-import nl.kozie.twodee.gfx.Spritesheet;
 
 public class Display extends Canvas {
 	
 	private static final long serialVersionUID = 1L;
+	public static final int BIT_MIRROR_X = 0x01;
+	public static final int BIT_MIRROR_Y = 0x02;
+	public static final int BIT_MIRROR_BOTH = 0x03;
+	
 	protected JFrame frame;
 	
 	protected GraphicsConfiguration gfxConfig;
@@ -148,39 +149,52 @@ public class Display extends Canvas {
 		}
 	}
 	
+	public void draw(int[] pixels, int w, int h) {
+		draw(pixels, w, h, 0, 0);
+	}
+	
+	public void draw(int[] pixels, int w, int h, int x, int y) {
+		draw(pixels, w, h, x, y, 0);
+	}
+	
+	public void draw(int[] pixels, int w, int h, int x, int y, int bit) {
+		
+		boolean mirrorX = (bit & BIT_MIRROR_X) > 0;
+		boolean mirrorY = (bit & BIT_MIRROR_Y) > 0;
+		
+		int offset = y * width + x;
+		
+		for (int yy = 0; yy < h; yy++) {
+			for (int xx = 0; xx < w; xx++) {
+				
+				if (xx + x > (width - 1) || xx + x < 0 || yy + y > (height - 1) || yy + y < 0) continue;
+				
+				int xi = xx;
+				int yi = yy;
+				
+				if (mirrorX) xi = (w - 1) - xx;
+				if (mirrorY) yi = (h - 1) - yy;
+				
+				int col = pixels[yi * h + xi];
+				
+				if (col != -1) {
+					this.pixels[offset + (yy * width) + xx] = col;
+				}
+			}
+		}
+	}
+	
 	public void render() {
 		
 		initBufferStrategy();
 		
-		Random rand = new Random();
-		for (int i = 0; i < pixels.length; i++) {
-			int r = rand.nextInt(0x77) & 0xFF;
-			int rgb = (r << 16 | r << 8 | r);
-			
-			pixels[i] = rgb;
+		Manager mgr =  Manager.getInstance();
+		for (int i = 0; i < mgr.sprites.size(); i++) {
+			mgr.sprites.get(i).render();
 		}
 		
-		Spritesheet sheet = Manager.getSpritesheet("main");
-		Sprite sprite = sheet.getTile(0, 9, 3);
-		
-		int startX = 140;
-		int startY = 80 * width;
-		for (int y = 0; y < sprite.getHeight(); y ++) {
-			for (int x = 0; x < sprite.getWidth(); x++) {
-				int rgb = sprite.pixels[y * sprite.getWidth() + x];
-				
-				if (rgb == -1) continue;
-				
-				int r = ((rgb >> 16) & 0xFF);
-				int g = ((rgb >> 8) & 0xFF);
-				int b = (rgb & 0xFF);
-				
-				pixels[startY + (y * width) + startX + x] = (r << 16 | g << 8 | b);
-			}
-		}
-		
-		g.setColor(Color.RED);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.BLACK);
+		g.clearRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		
 		// Blend with mosaic?
@@ -189,11 +203,28 @@ public class Display extends Canvas {
 		}
 				
 		sync();
+		
+		try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		clear();
 	}
 	
 	public void sync() {
 		g.dispose();
 		bs.show();
 		Toolkit.getDefaultToolkit().sync();
+		
+		// TODO Fix disposing of bs without flickering
+		//bs.dispose();
+	}
+	
+	public void clear() {
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = 0;
+		}
 	}
 }

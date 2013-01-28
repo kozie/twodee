@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
+import nl.kozie.twodee.entity.Entity;
+import nl.kozie.twodee.gfx.Screen;
 import nl.kozie.twodee.gfx.Spritesheet;
 
 public class Manager implements Runnable {
@@ -22,6 +26,7 @@ public class Manager implements Runnable {
 	public int ups = 40;
 	
 	public Display display;
+	public Screen screen;
 	public KeyboardListener keyboard;
 	public MouseListener mouse;
 	
@@ -29,6 +34,9 @@ public class Manager implements Runnable {
 	public static Game main;
 	
 	public static Map<String, Spritesheet> spritesheets;
+	
+	// TODO Temp for fun
+	public List<Entity> sprites = new Vector<Entity>();
 	
 	protected Manager() {
 		spritesheets = Collections.synchronizedMap(new HashMap<String, Spritesheet>());
@@ -128,7 +136,11 @@ public class Manager implements Runnable {
 		
 		return Manager.class.getResourceAsStream(folder + file);
 	}
-		
+	
+	public Display getDisplay() {
+		return display;
+	}
+	
 	public void setDisplay(Display dis) {
 		display = dis;
 	}

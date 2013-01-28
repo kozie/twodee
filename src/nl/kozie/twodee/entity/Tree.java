@@ -11,7 +11,6 @@ public class Tree extends Entity {
 	
 	public Tree(int x, int y) {
 		super();
-		
 		setX(x);
 		setY(y);
 	}

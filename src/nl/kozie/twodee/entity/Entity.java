@@ -33,6 +33,8 @@ public abstract  class Entity {
 		this.y = y;
 		
 		sprite = spr;
+		
+		init();
 	}
 	
 	public abstract void init();

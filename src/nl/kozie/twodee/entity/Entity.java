@@ -2,7 +2,7 @@ package nl.kozie.twodee.entity;
 
 import nl.kozie.twodee.gfx.Sprite;
 
-public /*abstract*/ class Entity {
+public abstract  class Entity {
 
 	public int x;
 	public int y;
@@ -12,6 +12,10 @@ public /*abstract*/ class Entity {
 	
 	public boolean solid = true;
 	public Sprite sprite;
+	
+	public Entity() {
+		this(0, 0, 0, 0);
+	}
 	
 	public Entity(int w, int h) {
 		this(w, h, 0, 0);
@@ -30,6 +34,12 @@ public /*abstract*/ class Entity {
 		
 		sprite = spr;
 	}
+	
+	public abstract void init();
+	
+	public abstract void tick(int delta);
+	
+	public abstract void render();
 	
 	public int getX() {
 		return x;
@@ -81,15 +91,5 @@ public /*abstract*/ class Entity {
 	
 	public void setSolid(boolean state) {
 		solid = state;
-	}
-	
-	public void tick(int delta) {
-		
-	}
-	
-	public void render() {
-		if (sprite != null) {
-			sprite.render(x, y);
-		}
 	}
 }

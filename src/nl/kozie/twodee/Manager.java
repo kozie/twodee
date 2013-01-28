@@ -11,7 +11,7 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
-import nl.kozie.twodee.entity.Entity;
+import nl.kozie.twodee.entity.Tree;
 import nl.kozie.twodee.gfx.Screen;
 import nl.kozie.twodee.gfx.Spritesheet;
 
@@ -36,7 +36,7 @@ public class Manager implements Runnable {
 	public static Map<String, Spritesheet> spritesheets;
 	
 	// TODO Temp for fun
-	public List<Entity> sprites = new Vector<Entity>();
+	public List<Tree> sprites = new Vector<Tree>();
 	
 	protected Manager() {
 		spritesheets = Collections.synchronizedMap(new HashMap<String, Spritesheet>());

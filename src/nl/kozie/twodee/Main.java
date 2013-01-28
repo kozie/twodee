@@ -1,7 +1,6 @@
 package nl.kozie.twodee;
 
-import nl.kozie.twodee.entity.Entity;
-import nl.kozie.twodee.gfx.Sprite;
+import nl.kozie.twodee.entity.Tree;
 import nl.kozie.twodee.gfx.Spritesheet;
 
 public class Main implements Game {
@@ -12,8 +11,6 @@ public class Main implements Game {
 	private static final int SCALE = 3;
 	private static final int FPS = 60;
 	private static final int UPS = 40;
-	
-	protected Sprite sprite;
 	
 	public Main() {
 				
@@ -38,8 +35,6 @@ public class Main implements Game {
 		
 		Spritesheet main = new Spritesheet(Manager.getImage("maintiles.png"), 16);
 		Manager.setSpritesheet("main", main);
-		
-		sprite =  main.getTile(3, 11);
 	}
 	
 	public synchronized void tick(int delta) {
@@ -49,7 +44,7 @@ public class Main implements Game {
 			int x = mgr.mouse.mouseX - 8;
 			int y = mgr.mouse.mouseY - 8;
 			
-			Entity ent = new Entity(sprite.getWidth(), sprite.getHeight(), x, y, sprite);
+			Tree ent = new Tree(x, y);
 			mgr.sprites.add(ent);
 		}
 	}

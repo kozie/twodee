@@ -2,7 +2,7 @@ package nl.kozie.twodee.entity;
 
 import java.util.Random;
 
-import nl.kozie.twodee.Manager;
+import nl.kozie.twodee.Resources;
 import nl.kozie.twodee.gfx.Sprite;
 
 public class Tree extends Entity {
@@ -21,7 +21,7 @@ public class Tree extends Entity {
 		Random r = new Random();
 		bit = r.nextInt(3);
 		
-		Sprite spr = Manager.getSpritesheet("main").getTile(3, 11);
+		Sprite spr = Resources.getSpritesheet("main").getTile(3, 11);
 		
 		setSprite(spr);
 		setWidth(spr.getWidth());

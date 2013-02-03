@@ -1,5 +1,8 @@
 package nl.kozie.twodee;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.kozie.twodee.entity.Tree;
 import nl.kozie.twodee.gfx.Spritesheet;
 
@@ -12,11 +15,13 @@ public class Main implements Game {
 	private static final int FPS = 60;
 	private static final int UPS = 40;
 	
+	protected List<String> coords = new ArrayList<String>();
+	
 	public Main() {
 				
 		Display display = new Display(WIDTH, HEIGHT, SCALE);
 		display.initWindow();
-		display.initMosaic(SCALE);
+		display.initMosaic(SCALE, 0.12, 0xB2D5FF, 0x57007F);
 		display.setTitle(TITLE);
 		display.setFps(FPS);
 		
@@ -33,8 +38,8 @@ public class Main implements Game {
 	
 	public synchronized void init() {
 		
-		Spritesheet main = new Spritesheet(Manager.getImage("maintiles.png"), 16);
-		Manager.setSpritesheet("main", main);
+		Spritesheet main = new Spritesheet(Resources.getImage("maintiles.png"), 16);
+		Resources.setSpritesheet("main", main);
 	}
 	
 	public synchronized void tick(int delta) {
@@ -43,9 +48,15 @@ public class Main implements Game {
 		if (mgr.mouse.left) {
 			int x = mgr.mouse.mouseX - 8;
 			int y = mgr.mouse.mouseY - 8;
+			String xy = x + "," + y;
 			
-			Tree ent = new Tree(x, y);
-			mgr.sprites.add(ent);
+			if (!coords.contains(xy)) {
+			
+				Tree ent = new Tree(x, y);
+				mgr.sprites.add(ent);
+			
+				coords.add(xy);
+			}
 		}
 	}
 

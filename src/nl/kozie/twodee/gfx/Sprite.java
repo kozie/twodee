@@ -32,15 +32,15 @@ public class Sprite {
 		pixels[(y * width) + x] = col;
 	}
 	
-	public void render() {
-		render(0, 0);
+	public void draw() {
+		draw(0, 0);
 	}
 	
-	public void render(int x, int y) {
-			render(x, y, 0);
+	public void draw(int x, int y) {
+			draw(x, y, 0);
 	}
 	
-	public void render(int x, int y, int bit) {
+	public void draw(int x, int y, int bit) {
 		
 		Display display = Manager.getInstance().getDisplay();
 		display.draw(pixels, width, height, x, y, bit);

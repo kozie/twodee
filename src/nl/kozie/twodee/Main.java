@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.kozie.twodee.entity.Tree;
 import nl.kozie.twodee.gfx.Spritesheet;
+import nl.kozie.twodee.world.World;
 
 public class Main implements Game {
 	
@@ -40,14 +41,26 @@ public class Main implements Game {
 		
 		Spritesheet main = new Spritesheet(Resources.getImage("maintiles.png"), 16);
 		Resources.setSpritesheet("main", main);
+		
+		World w = new World();
+		w.init(300, 300);
+		w.setBaseTile(main.getTile(1, 1));
+		Manager.getInstance().setWorld(w);
+	}
+	
+	public synchronized void draw() {
+		Manager.getInstance().getWorld().draw();
 	}
 	
 	public synchronized void tick(int delta) {
 		
 		Manager mgr = Manager.getInstance();
-		if (mgr.mouse.left) {
-			int x = mgr.mouse.mouseX - 8;
-			int y = mgr.mouse.mouseY - 8;
+		KeyboardListener keyboard = mgr.keyboard;
+		MouseListener mouse = mgr.mouse;
+		
+		if (mouse.left) {
+			int x = mouse.mouseX - 8;
+			int y = mouse.mouseY - 8;
 			String xy = x + "," + y;
 			
 			if (!coords.contains(xy)) {
@@ -58,6 +71,11 @@ public class Main implements Game {
 				coords.add(xy);
 			}
 		}
+		
+		if (keyboard.left.pressed) mgr.getWorld().scrollLeft(1);
+		if (keyboard.up.pressed) mgr.getWorld().scrollUp(1);
+		if (keyboard.down.pressed) mgr.getWorld().scrollDown(1);
+		if (keyboard.right.pressed) mgr.getWorld().scrollRight(1);
 	}
 
 	/**

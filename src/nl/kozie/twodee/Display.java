@@ -191,7 +191,7 @@ public class Display extends Canvas {
 		
 		Manager mgr =  Manager.getInstance();
 		for (int i = 0; i < mgr.sprites.size(); i++) {
-			mgr.sprites.get(i).render();
+			mgr.sprites.get(i).draw();
 		}
 		
 		g.setColor(Color.BLACK);

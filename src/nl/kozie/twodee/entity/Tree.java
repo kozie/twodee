@@ -34,7 +34,7 @@ public class Tree extends Entity {
 	}
 
 	@Override
-	public void render() {
-		sprite.render(x, y, bit);
+	public void draw() {
+		sprite.draw(x, y, bit);
 	}
 }

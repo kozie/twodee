@@ -13,10 +13,10 @@ import nl.kozie.twodee.gfx.Spritesheet;
 
 public class Resources {
 	
-	public static final byte RESOURCE_TYPE_IMAGE = 0x01;
-	public static final byte RESOURCE_TYPE_FONT = 0x02;
-	public static final byte RESOURCE_TYPE_SFX = 0x04;
-	public static final byte RESOURCE_TYPE_MUSIC = 0x08;
+	public static final byte RESOURCE_TYPE_IMAGE = 1;
+	public static final byte RESOURCE_TYPE_FONT = 2;
+	public static final byte RESOURCE_TYPE_SFX = 3;
+	public static final byte RESOURCE_TYPE_MUSIC = 4;
 	
 	public static Map<String, Spritesheet> spritesheets;
 	public static Resources instance;

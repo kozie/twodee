@@ -2,7 +2,7 @@ package nl.kozie.twodee.entity;
 
 import nl.kozie.twodee.gfx.Sprite;
 
-public abstract  class Entity {
+public abstract class Entity {
 
 	public int x;
 	public int y;
@@ -41,7 +41,7 @@ public abstract  class Entity {
 	
 	public abstract void tick(int delta);
 	
-	public abstract void render();
+	public abstract void draw();
 	
 	public int getX() {
 		return x;

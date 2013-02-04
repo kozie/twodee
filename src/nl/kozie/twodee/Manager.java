@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import nl.kozie.twodee.entity.Tree;
 import nl.kozie.twodee.gfx.Screen;
+import nl.kozie.twodee.world.World;
 
 public class Manager implements Runnable {
 	
@@ -19,12 +20,12 @@ public class Manager implements Runnable {
 	public static Manager instance;
 	public static Game main;
 	
+	public World world;
+	
 	// TODO Temp for fun
 	public List<Tree> sprites = new Vector<Tree>();
 	
-	protected Manager() {
-		
-	}
+	protected Manager() {}
 	
 	protected void init() {
 		
@@ -55,6 +56,10 @@ public class Manager implements Runnable {
 		return main;
 	}
 	
+	public void setMain(Game obj) {
+		main = obj;
+	}
+	
 	public Display getDisplay() {
 		return display;
 	}
@@ -63,12 +68,16 @@ public class Manager implements Runnable {
 		display = dis;
 	}
 	
-	public void setMain(Game obj) {
-		main = obj;
-	}
-	
 	public void setUps(int rate) {
 		ups = rate;
+	}
+	
+	public World getWorld() {
+		return world;
+	}
+	
+	public void setWorld(World w) {
+		world = w;
 	}
 	
 	public void start() throws Exception {
@@ -148,6 +157,7 @@ public class Manager implements Runnable {
 			if (toRender > 20) toRender = 20;
 			
 			for (int i = 0; i < gonnaRender; i++) {
+				main.draw();
 				display.render();
 				
 				toRender--;
@@ -179,4 +189,4 @@ public class Manager implements Runnable {
 		
 		System.exit(0);
 	}
-};
+}

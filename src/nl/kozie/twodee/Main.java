@@ -42,8 +42,7 @@ public class Main implements Game {
 		Spritesheet main = new Spritesheet(Resources.getImage("maintiles.png"), 16);
 		Resources.setSpritesheet("main", main);
 		
-		World w = new World();
-		w.init(300, 300);
+		World w = new World(100, 100);
 		w.setBaseTile(main.getTile(1, 1));
 		Manager.getInstance().setWorld(w);
 	}
@@ -72,10 +71,10 @@ public class Main implements Game {
 			}
 		}
 		
-		if (keyboard.left.pressed) mgr.getWorld().scrollLeft(1);
-		if (keyboard.up.pressed) mgr.getWorld().scrollUp(1);
-		if (keyboard.down.pressed) mgr.getWorld().scrollDown(1);
-		if (keyboard.right.pressed) mgr.getWorld().scrollRight(1);
+		if (keyboard.left.pressed) mgr.getWorld().scrollLeft(2);
+		if (keyboard.up.pressed) mgr.getWorld().scrollUp(2);
+		if (keyboard.down.pressed) mgr.getWorld().scrollDown(2);
+		if (keyboard.right.pressed) mgr.getWorld().scrollRight(2);
 	}
 
 	/**

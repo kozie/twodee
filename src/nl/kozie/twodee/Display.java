@@ -65,6 +65,14 @@ public class Display extends Canvas {
 		this(w, h, 1);
 	}
 	
+	public int getOrigWidth() {
+		return width;
+	}
+	
+	public int getOrigHeight() {
+		return height;
+	}
+	
 	public void setTitle(String title) {
 		if (frame != null) {
 			frame.setTitle(title);

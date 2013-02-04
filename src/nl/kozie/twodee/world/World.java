@@ -1,7 +1,6 @@
 package nl.kozie.twodee.world;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import nl.kozie.twodee.Manager;
@@ -10,9 +9,6 @@ import nl.kozie.twodee.gfx.Sprite;
 
 public class World {
 	
-	public static final byte TILE_POS_BACK = 1;
-	public static final byte TILE_POS_FRONT = 2;
-	
 	protected int width;
 	protected int height;
 	protected int tileWidth = 16;
@@ -20,23 +16,29 @@ public class World {
 	protected int scrollX = 0;
 	protected int scrollY = 0;
 
-	protected List<Block> bgTiles;
-	protected List<Block> tiles;
-	protected List<Entity> entities;
+	protected List<Tile>[] tiles;
+	protected List<Entity>[] entitiesInTiles;
+	protected List<Entity> entities = new ArrayList<Entity>();
 	
 	protected Sprite baseTile;
 	
-	public World() {
-		bgTiles = Collections.synchronizedList(new ArrayList<Block>());
-		tiles = Collections.synchronizedList(new ArrayList<Block>());
-		entities = Collections.synchronizedList(new ArrayList<Entity>());
+	@SuppressWarnings("unchecked")
+	public World(int w, int h) {
+		width = w;
+		height = h;
+		
+		tiles = new ArrayList[w * h];
+		entitiesInTiles = new ArrayList[w * h];
+		
+		for (int i = 0; i < w * h; i++) {
+			tiles[i] = new ArrayList<Tile>();
+			entitiesInTiles[i] = new ArrayList<Entity>();
+		}
+		
+		init();
 	}
 	
-	public void init(int w, int h) {
-		
-		setWidth(w);
-		setHeight(h);
-		clear();
+	public void init() {
 	}
 	
 	public int getWidth() {
@@ -111,8 +113,8 @@ public class World {
 	}
 	
 	public void draw() {
-		int dw = Manager.getInstance().getDisplay().getWidth();
-		int dh = Manager.getInstance().getDisplay().getHeight();
+		int dw = Manager.getInstance().getDisplay().getOrigWidth();
+		int dh = Manager.getInstance().getDisplay().getOrigHeight();
 		
 		if (baseTile != null) {
 			for (int y = 0; y < ((int) dh / tileHeight + 1); y++) {
@@ -140,34 +142,15 @@ public class World {
 		return null;
 	}
 	
-	public void addEntity(Entity ent) {
-		entities.add(ent);
+	public void add(Entity e) {
+		entities.add(e);
 	}
 	
 	public void setBaseTile(Sprite s) {
 		baseTile = s;
 	}
 	
-	public void setTile(Block b) {
-		setTile(b, TILE_POS_FRONT);
-	}
-	
-	public void setTile(Block b, byte pos) {
-		switch (pos) {
-			case TILE_POS_BACK:
-				bgTiles.add(b);
-				break;
-			
-			case TILE_POS_FRONT:
-				tiles.add(b);
-				break;
-		}
-	}
-	
 	public void clear() {
-		bgTiles.clear();
-		tiles.clear();
-		entities.clear();
 		
 		baseTile = null;
 	}
